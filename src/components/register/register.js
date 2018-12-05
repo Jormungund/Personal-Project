@@ -1,0 +1,85 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import './register.css';
+import { connect } from 'react-redux';
+import { userLoggedIn } from '../../redux/reducer';
+
+class Register extends Component {
+    constructor(){
+        super()
+
+        this.state = {
+            username: '',
+            email: '',
+            password: '',
+            isAdmin: false,
+            error: ''
+        }
+    }
+
+    handleChange = e => {
+        let { name, value } = e.target
+    
+        this.setState({
+          [name]: value
+        })
+    }
+    
+    handleClick = () => {
+        axios.post('/auth/register', this.state).then(response => {
+            let user = response.data
+            this.props.userLoggedIn(user)
+          }).catch(err => {
+            console.log(err.response)
+            this.setState({
+              error: err.response.data
+            })
+          })
+        this.props.onClose()
+    }
+
+    handleKeyUp = (e) => {
+        if(e.keyCode === 13){
+            this.handleClick()
+        }
+    }
+
+    render() {
+        if(!this.props.show) {
+        return null;
+        }
+        return (
+            <section className="register">
+                <button className="closeButton" onClick={this.props.onClose}>Close</button>
+                <h3 className="registerText">Username</h3>
+                <input className="registerInputs" name="username" value={this.state.username} type="text" maxLength="20" placeholder="Username" onChange={this.handleChange}/>
+                <br/>
+                <h3 className="registerText">Email</h3>
+                <input className="registerInputs" name="email" value={this.state.email} type="text" placeholder="Email" onChange={this.handleChange}/>
+                <br/>
+                <h3 className="registerText">Password</h3>
+                <input onKeyUp={this.handleKeyUp} className="registerInputs" name="password" value={this.state.password} type="text" placeholder="Password" onChange={this.handleChange}/>
+                <br/>
+                <Link to="/welcome" className="registerButton link"><button className="registerButton" onClick={this.handleClick}>Submit</button></Link>
+                {this.state.error}
+            </section>
+        );
+    }
+}
+
+Register.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  show: PropTypes.bool,
+  children: PropTypes.node
+};
+
+function mapStateToProps(state) {
+    let { isAuthenticated } = state
+    return {
+      isAuthenticated
+    }
+  }
+  
+  export default connect(mapStateToProps, { userLoggedIn })(Register)
