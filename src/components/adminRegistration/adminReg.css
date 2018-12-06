@@ -11,6 +11,8 @@
     border: 1px solid lightgray;
     border-radius: 3px;
     box-shadow: 0px 0px 20px gray;
+    padding: 20px;
+    position: relative
 }
 
 .regText {
@@ -20,4 +22,34 @@
     box-shadow: 0px 0px .5px black;
     border: 1px solid lightgray;
     font-size: 15px;
+    margin: 30px 2.5%;
+    margin-top: 10px;
+}
+
+.aRegister {
+    background-color: rgb(224, 224, 224);
+    width: 80%;
+    height: 80%;
+    border: 2px solid gray;
+    border-radius: 10px;
+    position: absolute;
+    top: 10%;
+    right: 10%;
+}
+.aRegText {
+    margin: 0 2.5%;
+}
+
+.top {
+    margin-top: 25%;
+}
+
+.sub{
+    margin-top: 50;
+}
+
+.information {
+    text-align: center;
+    font-size: 25px;
+    margin: 12.5% auto;
 }

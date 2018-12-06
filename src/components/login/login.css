@@ -34,3 +34,7 @@
     height: 30px;
     margin: 20px 20px 30px auto;
 }
+
+.loginError {
+    margin: 0 auto;
+}

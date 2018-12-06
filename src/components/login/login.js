@@ -11,7 +11,8 @@ class Login extends Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: ''
         }
     }
 
@@ -27,13 +28,16 @@ class Login extends Component {
         axios.post('/auth/login', this.state).then(response => {
             let user = response.data
             this.props.userLoggedIn(user)
+            this.props.onClose()
+            this.setState({
+                error: ''
+            })
           }).catch(err => {
             console.log(err.response)
             this.setState({
               error: err.response.data
             })
           })
-        this.props.onClose()
     }
 
     handleKeyUp = (e) => {
@@ -53,9 +57,10 @@ class Login extends Component {
                 <input className="loginInputs" name="email" value={this.state.email} type="text" placeholder="Email" onChange={this.handleChange}/>
                 <br/>
                 <h3 className="loginText">Password</h3>
-                <input onKeyUp={this.handleKeyUp} className="loginInputs" name="password" value={this.state.password} type="text" placeholder="Password" onChange={this.handleChange}/>
+                <input onKeyUp={this.handleKeyUp} className="loginInputs" name="password" value={this.state.password} type="password" placeholder="Password" onChange={this.handleChange}/>
                 <br/>
                 <button className="loginButton" onClick={this.handleClick}>Submit</button>
+                <div className="loginError">{this.state.error}</div>
             </section>
         );
     }

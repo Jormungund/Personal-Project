@@ -13,7 +13,6 @@ const app = express()
 
 const { CONNECTION_STRING, SERVER_PORT: PORT, SESSION_SECRET } = process.env
 
-
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db)
   console.log('db connected!')

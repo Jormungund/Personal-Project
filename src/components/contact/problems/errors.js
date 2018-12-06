@@ -40,7 +40,19 @@ class Errors extends Component {
                 return (
                     <div key={error.id} className="error">
                         <p>{error.author}:</p>
-                            { this.props.user && this.props.user.id === error.user_id && <div>
+                            { this.props.user && this.props.user.isadmin ? <div>
+                                {/* <button className="update" onClick={() => {
+                                    let { id } = error
+
+
+                                }}>Update</button> */}
+                                <button className="delete" onClick={() => {
+                                    axios.delete(`/api/errors/${error.id}`,).then(response => {
+                                        this.props.setErrors(response.data)
+                                    })
+                                }}>Delete</button></div> 
+                                
+                                : this.props.user && this.props.user.id === error.user_id && <div>
                                 {/* <button className="update" onClick={() => {
                                     let { id } = error
 

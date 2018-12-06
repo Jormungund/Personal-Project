@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import './register.css';
@@ -31,13 +30,17 @@ class Register extends Component {
         axios.post('/auth/register', this.state).then(response => {
             let user = response.data
             this.props.userLoggedIn(user)
+            this.props.onClose()
+            this.props.history.push('/')
+            this.setState({
+                error: ''
+            })
           }).catch(err => {
             console.log(err.response)
             this.setState({
               error: err.response.data
             })
           })
-        this.props.onClose()
     }
 
     handleKeyUp = (e) => {
@@ -62,8 +65,8 @@ class Register extends Component {
                 <h3 className="registerText">Password</h3>
                 <input onKeyUp={this.handleKeyUp} className="registerInputs" name="password" value={this.state.password} type="text" placeholder="Password" onChange={this.handleChange}/>
                 <br/>
-                <Link to="/welcome" className="registerButton link"><button className="registerButton" onClick={this.handleClick}>Submit</button></Link>
-                {this.state.error}
+                <button className="registerButton" onClick={this.handleClick}>Submit</button>
+                <div className="registerError">{this.state.error}</div>
             </section>
         );
     }

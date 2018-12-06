@@ -33,14 +33,26 @@ class Posts extends Component {
     }
 
     render(){
-        
         return this.props.isAuthenticated ? 
             <div className="postBackground">
                 {this.props.posts.map(post => {
                 return (
                     <div key={post.id} className="post">
                         <p>{post.author}:</p>
-                            { this.props.user && this.props.user.id === post.user_id && <div>
+                            { this.props.user && this.props.user.isadmin ? <div>
+                                {/* { <button className="update" onClick={() => {
+                                    let { id } = post
+
+
+                                }}>Update</button> } */}
+                                <button className="delete" onClick={() => {
+                                    axios.delete(`/api/messages/${post.id}`,).then(response => {
+                                        this.props.setPosts(response.data)
+                                    })
+                                }}>Delete</button>
+                            </div> 
+
+                            : this.props.user && this.props.user.id === post.user_id && <div>
                                 {/* <button className="update" onClick={() => {
                                     let { id } = post
 
@@ -51,12 +63,13 @@ class Posts extends Component {
                                         this.props.setPosts(response.data)
                                     })
                                 }}>Delete</button>
-                            </div> }
+                            </div>}
                             
                             <div className="content">{post.content}</div>
                     </div>)
                 })}
             </div>:
+
             <div className="postBackground">
             {this.props.posts.map(post => {
             return (
