@@ -89,7 +89,7 @@ class Header extends Component {
                 <button className="log_reg" onClick={this.toggleRegister}>Register</button>
             </div>
 
-            <Login style={{zIndex: 1000}}show={this.state.isOpenLogin} onClose={this.toggleLogin}/>
+            <Login style={{zIndex: 1000}} show={this.state.isOpenLogin} onClose={this.toggleLogin}/>
             <Register show={this.state.isOpenRegister} onClose={this.toggleRegister}/>
         </div>
     }

@@ -1,6 +1,6 @@
-INSERT INTO predictions (user_id, team1Prediction, team2Prediction) 
-VALUES (${user_id}, ${team1Prediction}, ${team2Prediction});
+INSERT INTO predictions ( user_id, team1prediction, team2prediction) 
+VALUES (${user_id}, ${team1prediction}, ${team2prediction});
 
-SELECT p.*, u.username as author, u.id as userId
-FROM predictions p
-JOIN users u ON u.id = p.user_id;
+SELECT *
+FROM predictions
+Where user_id = ${user_id}

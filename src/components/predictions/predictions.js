@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import './predictions.css';
 import { connect } from 'react-redux';
 import { setPredictions, userLoggedIn } from '../../redux/reducer';
@@ -10,8 +10,8 @@ class Predictions extends Component {
         super()
 
         this.state = {
-            team1: 0,
-            team2: 0,
+            team1prediction: 0,
+            team2prediction: 0,
             editPredictions: false
         }
     }
@@ -22,7 +22,7 @@ class Predictions extends Component {
                 this.props.userLoggedIn(response.data)
             }
         })
-        axios.get('/api/predictions', this.state).then(response => {
+        axios.get('/api/predictions').then(response => {
             this.props.setPredictions(response.data)
     })
     }
@@ -41,35 +41,42 @@ class Predictions extends Component {
         })
     }
 
+    handleSubmit = () => {
+        axios.post('/api/predictions', this.state).then(response => {
+            this.props.setPredictions(response.data)
+        })
+    }
+
     render(){
         return (
             <div className="pBackground">
                 <div className="innerPBackground">
-                    {this.state.editPredictions ? 
+                    { this.isAuthenticated ? this.state.editPredictions ? 
                         <div>
                             <section className="sPredictions">
                                 <h2>Team 1 Score</h2>
                                 <h2>Team 2 Score</h2>
                             </section>
                             <section className="sPredictions">
-                                <input name="team1" type="number" max="999" placeholder="0" value={this.state.team1} onChange={this.handleChange}/>
-                                <input name="team2" type="number" max="999" placeholder="0" value={this.state.team2} onChange={this.handleChange}/>
+                                <input name="team1prediction" type="number" max="999" placeholder="0" value={this.state.team1} onChange={this.handleChange}/>
+                                <input name="team2prediction" type="number" max="999" placeholder="0" value={this.state.team2} onChange={this.handleChange}/>
                             </section>
+                            <button onClick={this.handleSubmit}>Submit</button>
                             <button onClick={this.toggleEdit}>Edit Predictions</button>
                         </div>:
                         <div>
                             {this.props.user && <div> Welcome {this.props.user.username}!</div>}
-                            {this.props.predictions.team1Prediction && this.props.predictions.team2Prediction ? 
+                            {this.props.predictions.team1prediction && this.props.predictions.team2prediction ? 
                                 <div>
-                                    {this.props.predictions.team1Prediction}
-                                    {this.props.predictions.team2Prediction}
+                                    {this.props.predictions.team1prediction}
+                                    {this.props.predictions.team2prediction}
                                 </div>:
                                 <div>
                                     <h3>You do not have any or both predictions yet.</h3>
                                     <button onClick={this.toggleEdit}>Make Predictions</button>
                                 </div>
                             }
-                        </div>
+                        </div> : <Redirect to="/" />
                     }
                 </div>
             </div>
@@ -78,10 +85,11 @@ class Predictions extends Component {
 }
 
 function mapStateToProps(state) {
-    let { user, predictions } = state
+    let { user, predictions, isAuthenticated } = state
     return {
       user,
-      predictions
+      predictions,
+      isAuthenticated
     }
 }
 

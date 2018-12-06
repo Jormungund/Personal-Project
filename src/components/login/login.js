@@ -29,9 +29,6 @@ class Login extends Component {
             let user = response.data
             this.props.userLoggedIn(user)
             this.props.onClose()
-            this.setState({
-                error: ''
-            })
           }).catch(err => {
             console.log(err.response)
             this.setState({

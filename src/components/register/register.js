@@ -30,11 +30,8 @@ class Register extends Component {
         axios.post('/auth/register', this.state).then(response => {
             let user = response.data
             this.props.userLoggedIn(user)
-            this.props.onClose()
             this.props.history.push('/')
-            this.setState({
-                error: ''
-            })
+            this.props.onClose()
           }).catch(err => {
             console.log(err.response)
             this.setState({

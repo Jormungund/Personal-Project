@@ -30,9 +30,6 @@ class AdminReg extends Component {
             let user = response.data
             this.props.userLoggedIn(user)
             this.props.history.push('/welcome')
-            this.setState({
-                error: ''
-            })
           }).catch(err => {
             console.log(err.response)
             this.setState({
