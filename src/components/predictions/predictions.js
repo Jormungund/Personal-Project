@@ -51,33 +51,35 @@ class Predictions extends Component {
         return (
             <div className="pBackground">
                 <div className="innerPBackground">
-                    { this.isAuthenticated ? this.state.editPredictions ? 
-                        <div>
-                            <section className="sPredictions">
-                                <h2>Team 1 Score</h2>
-                                <h2>Team 2 Score</h2>
-                            </section>
-                            <section className="sPredictions">
-                                <input name="team1prediction" type="number" max="999" placeholder="0" value={this.state.team1} onChange={this.handleChange}/>
-                                <input name="team2prediction" type="number" max="999" placeholder="0" value={this.state.team2} onChange={this.handleChange}/>
-                            </section>
-                            <button onClick={this.handleSubmit}>Submit</button>
-                            <button onClick={this.toggleEdit}>Edit Predictions</button>
-                        </div>:
-                        <div>
-                            {this.props.user && <div> Welcome {this.props.user.username}!</div>}
-                            {this.props.predictions.team1prediction && this.props.predictions.team2prediction ? 
-                                <div>
-                                    {this.props.predictions.team1prediction}
-                                    {this.props.predictions.team2prediction}
-                                </div>:
-                                <div>
-                                    <h3>You do not have any or both predictions yet.</h3>
-                                    <button onClick={this.toggleEdit}>Make Predictions</button>
-                                </div>
-                            }
-                        </div> : <Redirect to="/" />
-                    }
+                    {this.props.isAuthenticated ? <div>
+                        { this.state.editPredictions ? 
+                            <div>
+                                <section className="sPredictions">
+                                    <h2>Team 1 Score</h2>
+                                    <h2>Team 2 Score</h2>
+                                </section>
+                                <section className="sPredictions">
+                                    <input name="team1prediction" type="number" max="999" placeholder="0" value={this.state.team1} onChange={this.handleChange}/>
+                                    <input name="team2prediction" type="number" max="999" placeholder="0" value={this.state.team2} onChange={this.handleChange}/>
+                                </section>
+                                <button onClick={this.handleSubmit}>Submit</button>
+                                <button onClick={this.toggleEdit}>Edit Predictions</button>
+                            </div>:
+                            <div>
+                                {this.props.user && <div> Welcome {this.props.user.username}!</div>}
+                                {this.props.predictions.team1prediction && this.props.predictions.team2prediction ? 
+                                    <div>
+                                        {this.props.predictions.team1prediction}
+                                        {this.props.predictions.team2prediction}
+                                    </div>:
+                                    <div>
+                                        <h3>You do not have any or both predictions yet.</h3>
+                                        <button onClick={this.toggleEdit}>Make Predictions</button>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div> : <Redirect to="/" /> }
                 </div>
             </div>
         )
