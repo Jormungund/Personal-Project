@@ -13,16 +13,20 @@ class App extends Component {
   render() {
     return (
       <HashRouter>
-        <div className="App">
-         <Header />
-         <Switch>
-           <Route path="/" exact component={MessageBoard}/>
-           <Route path="/predictions" component={Predictions} />
-           <Route path="/contact" component={Contact} />
-           <Route path="/welcome" component={Welcome} />
-           <Route path="/adminRegistration" component={AdminReg} />
-         </Switch>
-        </div>
+        <Route path="/" render={(props) => {
+          return (
+            <div className="App">   
+            <Header {...props}/>
+            <Switch>
+              <Route path="/" exact component={MessageBoard}/>
+              <Route path="/predictions" component={Predictions} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/welcome" component={Welcome} />
+              <Route path="/adminRegistration" component={AdminReg} />
+            </Switch>
+          </div>    
+          )
+          }}/>
       </HashRouter>
     );
   }

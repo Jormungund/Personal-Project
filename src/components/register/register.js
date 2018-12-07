@@ -28,16 +28,20 @@ class Register extends Component {
     
     handleClick = () => {
         axios.post('/auth/register', this.state).then(response => {
+            this.goToWelcome()
+            this.props.onClose()
             let user = response.data
             this.props.userLoggedIn(user)
-            this.props.history.push('/')
-            this.props.onClose()
           }).catch(err => {
-            console.log(err.response)
+            console.log(err)
             this.setState({
-              error: err.response.data
+              error: err.data
             })
           })
+    }
+
+    goToWelcome = () => {
+        this.props.history.push('/welcome')
     }
 
     handleKeyUp = (e) => {

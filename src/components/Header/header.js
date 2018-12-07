@@ -90,7 +90,7 @@ class Header extends Component {
             </div>
 
             <Login style={{zIndex: 1000}} show={this.state.isOpenLogin} onClose={this.toggleLogin}/>
-            <Register show={this.state.isOpenRegister} onClose={this.toggleRegister}/>
+            <Register show={this.state.isOpenRegister} {...this.props} onClose={this.toggleRegister}/>
         </div>
     }
 }
