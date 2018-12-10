@@ -46,7 +46,7 @@ app.delete('/api/errors/:id', PostECtrl.delete)
 
 app.post('/api/predictions', PredictionsCtrl.create)
 app.get('/api/predictions', PredictionsCtrl.read)
-app.put('/api/predictions/:id', PredictionsCtrl.update)
+app.put('/api/predictions/', PredictionsCtrl.update)
 
 app.listen(PORT, () => {
   console.log('listening on port', PORT)

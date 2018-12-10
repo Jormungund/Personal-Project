@@ -12,6 +12,7 @@ class Predictions extends Component {
         this.state = {
             team1prediction: 0,
             team2prediction: 0,
+            makePredictions: false,
             editPredictions: false
         }
     }
@@ -35,6 +36,12 @@ class Predictions extends Component {
         })
     }
 
+    toggleMake = () => {
+        this.setState({
+            makePredictions: !this.state.makePredictions
+        })
+    }
+
     toggleEdit = () => {
         this.setState({
             editPredictions: !this.state.editPredictions
@@ -44,6 +51,14 @@ class Predictions extends Component {
     handleSubmit = () => {
         axios.post('/api/predictions', this.state).then(response => {
             this.props.setPredictions(response.data)
+            this.toggleMake()
+        })
+    }
+
+    handleUpdate = () => {
+        axios.put(`/api/predictions`, this.state).then(response => {
+            this.props.setPredictions(response.data)
+            this.toggleEdit()
         })
     }
 
@@ -52,7 +67,7 @@ class Predictions extends Component {
             <div className="pBackground">
                 <div className="innerPBackground">
                     {this.props.isAuthenticated ? <div>
-                        { this.state.editPredictions ? 
+                        { this.state.makePredictions ? 
                             <div>
                                 <section className="sPredictions">
                                     <h2>Team 1 Score</h2>
@@ -63,20 +78,41 @@ class Predictions extends Component {
                                     <input name="team2prediction" type="number" max="999" placeholder="0" value={this.state.team2} onChange={this.handleChange}/>
                                 </section>
                                 <button onClick={this.handleSubmit}>Submit</button>
-                                <button onClick={this.toggleEdit}>Edit Predictions</button>
                             </div>:
                             <div>
-                                {this.props.user && <div> Welcome {this.props.user.username}!</div>}
-                                {this.props.predictions.team1prediction && this.props.predictions.team2prediction ? 
-                                    <div>
-                                        {this.props.predictions.team1prediction}
-                                        {this.props.predictions.team2prediction}
-                                    </div>:
-                                    <div>
-                                        <h3>You do not have any or both predictions yet.</h3>
-                                        <button onClick={this.toggleEdit}>Make Predictions</button>
+                                {this.state.editPredictions ? 
+                                <div>
+                                    {this.props.user && <div className="userWelcome"> Welcome {this.props.user.username}!</div>}
+                                    <div className="relative">
+                                        <section className="sPredictions">
+                                            <h2>Team 1 Score</h2>
+                                            <h2>Team 2 Score</h2>
+                                        </section>
+                                        <section className="sPredictions">
+                                            <input name="team1prediction" type="number" max="999" placeholder={this.props.predictions.team1prediction} value={this.state.team1} onChange={this.handleChange}/>
+                                            <input name="team2prediction" type="number" max="999" placeholder={this.props.predictions.team2prediction} value={this.state.team2} onChange={this.handleChange}/>
+                                        </section>
+                                        <div className="moreButtons">
+                                            <button onClick={this.handleUpdate} className="preButton yes">Submit</button>
+                                            <button onClick={this.toggleEdit} className="cancelButton">Cancel</button>
+                                        </div>
                                     </div>
-                                }
+                                </div> : 
+                                <div>
+                                {this.props.user && <div className="userWelcome"> Welcome {this.props.user.username}!</div>}
+                                {this.props.predictions.team1prediction && this.props.predictions.team2prediction ? 
+                                    <div className="stuffing">
+                                        <div className="squah">
+                                            <h3 className="noH3">Team 1 Prediction: {this.props.predictions.team1prediction}</h3>
+                                            <h3 className="noH3">Team 2 Prediction: {this.props.predictions.team2prediction}</h3>
+                                        </div>
+                                        <button onClick={this.toggleEdit} className="preButton no">Edit Predictions</button>
+                                    </div>:
+                                    <div className="noPredictions">
+                                        <h3 className="noH3">You have not made any predictions yet.</h3>
+                                        <button onClick={this.toggleMake} className="preButton">Make Predictions</button>
+                                    </div>
+                                }</div>}
                             </div>
                         }
                     </div> : <Redirect to="/" /> }

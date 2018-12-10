@@ -31,12 +31,12 @@ module.exports = {
     update: async (req, res) => {
       try {
         const db = req.app.get('db')
-        let { id } = req.params
+        let { id } = req.session.user
         let { team1prediction, team2prediction } = req.body
   
         let predictions = await db.updatePredictions([id, team1prediction, team2prediction])
   
-        res.send(predictions)
+        res.send(predictions[0])
       } catch (error) {
         console.log('error updating predictions:', error)
         res.status(500).send(error)
